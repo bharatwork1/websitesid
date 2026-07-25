@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  background-color: #0a0a09;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #0a0a09;
+  color: #f2efe9;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: 'Anton', sans-serif;
+}
+
+/* Thin scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a09;
+}
+::-webkit-scrollbar-thumb {
+  background: #c9a44c;
+  border-radius: 0;
+}
+
+/* Focus states */
+*:focus-visible {
+  outline: 2px solid #c9a44c;
+  outline-offset: 2px;
+}
+
+/* Hairline divider */
+.hairline {
+  border-color: #2a2a27;
+}
