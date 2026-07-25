@@ -1,7 +1,11 @@
-const transformations = [
-  { id: 'TRANSFORMATION_PHOTO_1', label: 'Client Transformation 1' },
-  { id: 'TRANSFORMATION_PHOTO_2', label: 'Client Transformation 2' },
-  { id: 'TRANSFORMATION_PHOTO_3', label: 'Client Transformation 3' },
+type TransformationItem =
+  | { type: 'photo'; src: string; alt: string }
+  | { type: 'placeholder'; id: string; label: string };
+
+const transformations: TransformationItem[] = [
+  { type: 'photo', src: '/images/sid3.jpg', alt: 'Client transformation' },
+  { type: 'photo', src: '/images/sid4.jpg', alt: 'Client transformation' },
+  { type: 'placeholder', id: 'TRANSFORMATION_PHOTO_3', label: 'Client Transformation 3' },
 ];
 
 function PhotoPlaceholder({ id, label }: { id: string; label: string }) {
@@ -44,9 +48,24 @@ export default function Results() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {transformations.map((item) => (
-            <PhotoPlaceholder key={item.id} id={item.id} label={item.label} />
-          ))}
+          {transformations.map((item, i) =>
+            item.type === 'photo' ? (
+              <div
+                key={i}
+                className="relative aspect-[3/4] border border-brand-border overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-brand-gold z-10" />
+                <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-brand-gold z-10" />
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+            ) : (
+              <PhotoPlaceholder key={i} id={item.id} label={item.label} />
+            )
+          )}
         </div>
 
         <p className="text-center text-brand-muted text-xs mt-8 tracking-widest uppercase">

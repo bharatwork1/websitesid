@@ -85,26 +85,17 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right — photo placeholder */}
+          {/* Right — photo */}
           <div className="relative">
-            <div
-              className="relative aspect-[3/4] w-full max-w-sm mx-auto border border-brand-border overflow-hidden"
-              style={{ background: '#111110' }}
-            >
+            <div className="relative aspect-[3/4] w-full max-w-sm mx-auto border border-brand-border overflow-hidden">
               {/* Corner accents */}
-              <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-brand-gold" />
-              <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-brand-gold" />
-
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                <div className="w-16 h-[1px] bg-brand-gold-dim" />
-                <p className="font-display text-sm tracking-widest uppercase text-brand-gold-dim">
-                  HERO_PHOTO
-                </p>
-                <p className="text-xs text-brand-muted text-center px-6">
-                  Replace with Siddhant's photo
-                </p>
-                <div className="w-16 h-[1px] bg-brand-gold-dim" />
-              </div>
+              <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-brand-gold z-10" />
+              <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-brand-gold z-10" />
+              <img
+                src="/images/sid.jpg"
+                alt="Siddhant Chowdhury — Certified Personal Trainer"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
 
             {/* Floating badge */}

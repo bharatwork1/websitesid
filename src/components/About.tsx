@@ -35,21 +35,15 @@ export default function About() {
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
           {/* Left — photo + bio */}
           <div>
-            {/* Photo placeholder */}
-            <div
-              className="relative aspect-square w-full max-w-xs border border-brand-border overflow-hidden mb-8"
-              style={{ background: '#111110' }}
-            >
-              <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-brand-gold" />
-              <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-brand-gold" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                <div className="w-10 h-[1px] bg-brand-gold-dim" />
-                <p className="font-display text-sm tracking-widest uppercase text-brand-gold-dim">
-                  ABOUT_PHOTO
-                </p>
-                <p className="text-xs text-brand-muted">Replace with trainer photo</p>
-                <div className="w-10 h-[1px] bg-brand-gold-dim" />
-              </div>
+            {/* Photo */}
+            <div className="relative aspect-square w-full max-w-xs border border-brand-border overflow-hidden mb-8">
+              <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-brand-gold z-10" />
+              <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-brand-gold z-10" />
+              <img
+                src="/images/sid2.jpg"
+                alt="Siddhant Chowdhury"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
 
             <h2 className="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-none uppercase text-brand-text mb-6">
