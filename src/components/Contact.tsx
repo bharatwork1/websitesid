@@ -1,4 +1,4 @@
-import { MessageCircle, Mail, Instagram, Send } from 'lucide-react';
+import { MessageCircle, Mail, Instagram, Send, AlertCircle } from 'lucide-react';
 import { useState, FormEvent } from 'react';
 
 const WA_LINK = 'https://wa.me/918100481232';
@@ -14,16 +14,31 @@ const goalOptions = [
 ];
 
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus('loading');
+
     const form = e.currentTarget;
-    // Let formsubmit handle it, but show a success state after submit
-    // We'll use a hidden iframe trick to avoid page redirect
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 6000);
-    // Allow the form to actually submit to formsubmit via the action
-    // We won't prevent default here so the form actually submits
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/siddhantchowdhury57@gmail.com', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: data,
+      });
+
+      if (res.ok) {
+        setStatus('success');
+        form.reset();
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -54,7 +69,7 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-5 py-6 border-b border-brand-border group hover:bg-brand-dark-2 transition-colors duration-200 px-2 -mx-2"
               >
-                <div className="w-10 h-10 border border-brand-border flex items-center justify-center group-hover:border-brand-gold group-hover:text-brand-gold transition-colors">
+                <div className="w-10 h-10 border border-brand-border flex items-center justify-center group-hover:border-brand-gold transition-colors">
                   <MessageCircle size={18} className="text-brand-muted group-hover:text-brand-gold transition-colors" />
                 </div>
                 <div>
@@ -101,7 +116,7 @@ export default function Contact() {
 
           {/* Right — lead capture form */}
           <div>
-            {submitted ? (
+            {status === 'success' ? (
               <div className="border border-brand-gold bg-brand-dark-2 p-8 flex flex-col items-center justify-center text-center gap-4 min-h-[360px]">
                 <Send size={32} className="text-brand-gold" />
                 <h3 className="font-display text-2xl uppercase text-brand-text tracking-wide">
@@ -119,15 +134,15 @@ export default function Contact() {
                   <MessageCircle size={14} />
                   WhatsApp Now
                 </a>
+                <button
+                  onClick={() => setStatus('idle')}
+                  className="text-brand-muted text-xs tracking-widest uppercase underline underline-offset-4 hover:text-brand-text transition-colors"
+                >
+                  Send another message
+                </button>
               </div>
             ) : (
-              <form
-                action="https://formsubmit.co/siddhantchowdhury57@gmail.com"
-                method="POST"
-                onSubmit={handleSubmit}
-                className="space-y-4"
-              >
-                {/* Formsubmit config */}
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <input type="hidden" name="_subject" value="New Lead from Website" />
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_template" value="table" />
@@ -168,9 +183,10 @@ export default function Contact() {
                     id="goal"
                     name="goal"
                     required
+                    defaultValue=""
                     className="w-full bg-brand-dark-2 border border-brand-border text-brand-text text-sm px-4 py-3 focus:outline-none focus:border-brand-gold transition-colors appearance-none cursor-pointer"
                   >
-                    <option value="" disabled selected>Select your primary goal</option>
+                    <option value="" disabled>Select your primary goal</option>
                     {goalOptions.map((g) => (
                       <option key={g} value={g}>{g}</option>
                     ))}
@@ -190,12 +206,20 @@ export default function Contact() {
                   />
                 </div>
 
+                {status === 'error' && (
+                  <div className="flex items-center gap-2 text-red-400 text-xs border border-red-400/30 bg-red-400/10 px-4 py-3">
+                    <AlertCircle size={14} />
+                    Something went wrong. Please try WhatsApp or email directly.
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-4 bg-brand-gold text-brand-dark text-sm font-semibold tracking-widest uppercase hover:bg-brand-gold-light transition-colors duration-200 flex items-center justify-center gap-2"
+                  disabled={status === 'loading'}
+                  className="w-full py-4 bg-brand-gold text-brand-dark text-sm font-semibold tracking-widest uppercase hover:bg-brand-gold-light transition-colors duration-200 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <Send size={15} />
-                  Send Message
+                  {status === 'loading' ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             )}
